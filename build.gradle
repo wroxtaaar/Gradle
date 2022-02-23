@@ -3,6 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 	id 'application'
+	id 'maven-publish'
 }
 
 
@@ -11,8 +12,31 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '8'
 
 repositories {
+	mavenLocal()
 	mavenCentral()
 }
+// https://devcases.com/java/gradle-publish-artifacts-to-maven-local-repository/
+// https://docs.gradle.org/7.3/userguide/publishing_maven.html#publishing_maven:resolved_dependencies
+// https://stackoverflow.com/questions/61500897/gradle-springboot-mavenpublish-publication-only-contains-dependencies-and-or
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+			groupId = 'org.crio'
+            artifactId = 'weatherApplication'
+            version = '1.1'
+			from components.java
+			versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+        }
+    }
+}
+
 
 application {
   // URI of your main class/application's entry point (required)
