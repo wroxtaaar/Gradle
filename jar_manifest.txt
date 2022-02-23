@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Main-Class: com.crio.session5.activity1.WeatherAdvisorApplication
+Class-Path: bin lib/log4j-core-2.14.1.jar lib/log4j-api-2.14.1.jar lib/jackson-core-2.13.0.jar lib/spring-jcl-5.3.12.jar lib/spring-beans-5.3.12.jar lib/jackson-databind-2.13.0.jar lib/jackson-annotations-2.13.0.jar lib/spring-web-5.3.12.jar lib/spring-core-5.3.12.jar                                                                                                                                                                     
