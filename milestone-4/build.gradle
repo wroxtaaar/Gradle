@@ -1,0 +1,57 @@
+plugins {
+	id 'org.springframework.boot' version '2.6.3'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id 'maven-publish'
+}
+
+
+group = 'com.crio'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '8'
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+}
+// https://devcases.com/java/gradle-publish-artifacts-to-maven-local-repository/
+// https://docs.gradle.org/7.3/userguide/publishing_maven.html#publishing_maven:resolved_dependencies
+// https://stackoverflow.com/questions/61500897/gradle-springboot-mavenpublish-publication-only-contains-dependencies-and-or
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+			groupId = 'org.crio'
+            artifactId = 'weatherApplication'
+            version = '1.1'
+			from components.java
+			versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+        }
+    }
+}
+
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+// https://stackoverflow.com/questions/27604283/gradle-task-pass-arguments-to-java-application/29382636
+task runWeather(type: JavaExec, dependsOn: classes) {
+	if ( project.hasProperty("args") ) {
+        args project.args.split(',')
+    }
+	description = "Weather Advisor"
+	main = "com.crio.session5.activity1.WeatherAdvisorApplication"
+	classpath = sourceSets.main.runtimeClasspath
+}
+
+test {
+	useJUnitPlatform()
+}
