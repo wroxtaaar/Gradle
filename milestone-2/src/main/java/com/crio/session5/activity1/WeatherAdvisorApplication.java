@@ -61,9 +61,9 @@ public class WeatherAdvisorApplication {
 
     WeatherAdvisor weatherAdvisor = null;
     if (weatherApiVersion.equals("v1")) {
-      weatherAdvisor = new WeatherAdvisor(new OpenWeather());
+      weatherAdvisor = new WeatherAdvisor(new OpenWeather(restTemplate));
     } else {
-      weatherAdvisor = new WeatherAdvisor(new WeatherUnlocked());
+      weatherAdvisor = new WeatherAdvisor(new WeatherUnlocked(restTemplate));
     }
 
     if (weatherAdvisor.rainExpected(latitude, longitude, tripStartsAt, tripEndsAt)) {
